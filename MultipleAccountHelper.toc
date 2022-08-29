@@ -1,0 +1,12 @@
+## Interface: 90207
+## Title: Multiple Account Helper
+## Notes: Makes multiple local accounts management easier
+## Notes-frFR: Facilite la gestion du multicompte local
+## Author: Runter
+## Version: 0.1.0
+
+# User Interface
+ui/MultipleAccountHelper.xml
+
+# Core files
+core/MultipleAccountHelper.lua
