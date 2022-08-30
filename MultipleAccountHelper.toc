@@ -5,8 +5,13 @@
 ## Author: Runter
 ## Version: 0.1.0
 
-# User Interface
-ui/MultipleAccountHelper.xml
+embeds.xml
 
-# Core files
-core/MultipleAccountHelper.lua
+languages/enUS.lua
+languages/frFR.lua
+
+ui/MultipleAccountHelper_UI.xml
+ui/MultipleAccountHelper_Settings.lua
+ui/MultipleAccountHelper_UI.lua
+
+MultipleAccountHelper.lua
