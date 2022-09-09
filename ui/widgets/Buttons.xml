@@ -1,0 +1,62 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+    <Script file="ui/widgets/Buttons.lua" />
+
+    <Button name="MAHIconSquareButtonTemplate" inherits="SquareIconButtonTemplate" virtual="true" mixin="MAHButtonsMixin">
+        <NormalFont style="MAHFontIconNormal" />
+		<HighlightFont style="MAHFontIconHighlight" />
+		<DisabledFont style="MAHFontIconDisable" />
+
+		<ButtonText name="$parentText" parentKey="Text">
+			<Anchors>
+				<Anchor point="CENTER" x="0.5" />
+			</Anchors>
+		</ButtonText>
+
+        <Layers>
+            <Layer level="OVERLAY">
+                <FontString name="$parentTooltip" parentKey="tooltipText" inherits="GameTooltipText" justifyH="LEFT" hidden="true"/>
+            </Layer>
+        </Layers>
+
+        <Scripts>
+            <OnEnter method="OnEnter" />
+            <OnLeave method="OnLeave" />
+        </Scripts>
+    </Button>
+
+    <Button name="MAHLargeIconSquareButtonTemplate" inherits="MAHIconSquareButtonTemplate" virtual="true" mixin="MAHButtonsMixin">
+        <NormalFont style="MAHFontIconNormalLarge" />
+		<HighlightFont style="MAHFontIconHighlightLarge" />
+		<DisabledFont style="MAHFontIconDisableLarge" />
+    </Button>
+
+    <Button name="MAHIconTextButtonTemplate" inherits="UIPanelButtonTemplate" virtual="true" mixin="MAHButtonsMixin">
+        <Layers>
+			<Layer level="OVERLAY">
+				<FontString name="$parentIcon" parentKey="icon" inherits="MAHFontIconNormalLarge" justifyh="LEFT">
+					<Size x="32" y="32" />
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="LEFT" x="10" />
+					</Anchors>
+				</FontString>
+                <FontString name="$parentTooltip" parentKey="tooltipText" inherits="GameTooltipText" justifyH="LEFT" hidden="true"/>
+			</Layer>
+		</Layers>
+		<ButtonText name="$parentText" parentKey="Text">
+			<Anchors>
+				<Anchor point="CENTER" x="8" />
+			</Anchors>
+		</ButtonText>
+    </Button>
+
+    <Button name="MAHIconButtonTemplate" inherits="UIPanelButtonTemplate" virtual="true">
+		<ButtonText name="$parentText" parentKey="Text">
+			<Anchors>
+				<Anchor point="CENTER" x="1" />
+			</Anchors>
+		</ButtonText>
+        <NormalFont style="MAHFontIconNormalLarge"/>
+        <HighlightFont style="MAHFontIconHighlightLarge"/>
+        <DisabledFont style="MAHFontIconDisableLarge"/>
+    </Button>
+</Ui>

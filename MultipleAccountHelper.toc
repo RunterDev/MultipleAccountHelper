@@ -4,14 +4,24 @@
 ## Notes-frFR: Facilite la gestion du multicompte local
 ## Author: Runter
 ## Version: 0.1.0
+## SavedVariables: MultipleAccountHelperDB
 
 embeds.xml
 
 languages/enUS.lua
 languages/frFR.lua
 
-ui/MultipleAccountHelper_UI.xml
-ui/MultipleAccountHelper_Settings.lua
-ui/MultipleAccountHelper_UI.lua
-
 MultipleAccountHelper.lua
+
+core/DB.lua
+core/Settings.lua
+core/Core.lua
+
+ui/fonts/Fonts.xml
+ui/fonts/Icons.lua
+
+ui/widgets/Buttons.xml
+
+ui/FriendlistPanel.xml
+ui/FriendlistPanel.lua
+

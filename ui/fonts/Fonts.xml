@@ -1,0 +1,8 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+    <Font name="MAHFontIconNormal" inherits="GameFontNormal" font="Interface\AddOns\MultipleAccountHelper\ui\fonts\mah-icons.ttf" height="12" virtual="true" />
+    <Font name="MAHFontIconHighlight" inherits="GameFontHighlight" font="Interface\AddOns\MultipleAccountHelper\ui\fonts\mah-icons.ttf" height="12" virtual="true" />
+    <Font name="MAHFontIconDisable" inherits="GameFontDisable" font="Interface\AddOns\MultipleAccountHelper\ui\fonts\mah-icons.ttf" height="12" virtual="true" />
+    <Font name="MAHFontIconNormalLarge" inherits="GameFontNormalLarge" font="Interface\AddOns\MultipleAccountHelper\ui\fonts\mah-icons.ttf" height="16" virtual="true" />
+    <Font name="MAHFontIconHighlightLarge" inherits="GameFontHighlightLarge" font="Interface\AddOns\MultipleAccountHelper\ui\fonts\mah-icons.ttf" height="16" virtual="true" />
+    <Font name="MAHFontIconDisableLarge" inherits="GameFontDisableLarge" font="Interface\AddOns\MultipleAccountHelper\ui\fonts\mah-icons.ttf" height="16" virtual="true" />
+</Ui>

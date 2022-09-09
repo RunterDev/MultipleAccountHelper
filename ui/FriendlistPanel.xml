@@ -1,0 +1,121 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+
+    <!-- Account list element frame -->
+
+    <Frame name="MAHAccountListElementTemplate" virtual="true">
+        <Size y="42" />
+        <Anchors>
+            <Anchor point="LEFT" x="0" />
+            <Anchor point="RIGHT" x="0" />
+        </Anchors>
+        <Layers>
+            <Layer level="OVERLAY">
+                <FontString name="$parentConnectedDot" parentKey="connectedDot" inherits="MAHFontIconHighlight" text="E">
+                    <Color r="0.2" g="0.8" b="0.2" a="1"/>
+					<Anchors>
+						<Anchor point="LEFT" x="12" />
+					</Anchors>
+				</FontString>
+                <FontString name="$parentCharacterName" parentKey="characterName" inherits="GameFontHighlightLarge">
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.connectedDot" relativePoint="RIGHT" y="7" x="10" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentCharacterZone" parentKey="characterZone" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.characterName" relativePoint="BOTTOMLEFT" y="-4" />
+					</Anchors>
+				</FontString>
+				<FontString name="$parentCharacterRealm" parentKey="characterRealm" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.characterZone" relativePoint="RIGHT" x="4" />
+					</Anchors>
+				</FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Button name="$parentInviteButton" parentKey="inviteButton" inherits="MAHLargeIconSquareButtonTemplate">
+                <Size x="40" y="40" />
+                <ButtonText text="D"/>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeKey="$parent.accountsList" relativePoint="RIGHT" x="0" y="0" />
+                </Anchors>
+            </Button>
+        </Frames>
+    </Frame>
+
+    <!-- Main frame -->
+    <Frame name="MAHFriendlistPanel" inherits="PortraitFrameTemplate" parent="FriendsFrame">
+        <Size x="200" y="200" />
+        <Frames>
+            <!-- Settings button coming in a future update -->
+            <!-- <Button name="$parentSettings" parentKey="settingsButton" inherits="MAHIconSquareButtonTemplate"> -->
+                <!-- <ButtonText text="A"/> -->
+                <!-- <Anchors> -->
+                    <!-- <Anchor point="TOPRIGHT" x="-2" y="-27" /> -->
+                <!-- </Anchors> -->
+            <!-- </Button> -->
+            <Button name="$parentRefreshButton" parentKey="refreshButton" inherits="MAHIconSquareButtonTemplate">
+                <ButtonText text="B"/>
+                <Anchors>
+                    <!-- <Anchor point="RIGHT" relativeTo="$parentSettings" relativePoint="LEFT" x="2" y="0" /> -->
+                    <Anchor point="TOPRIGHT" x="-2" y="-27" />
+                </Anchors>
+            </Button>
+            <Button name="$parentMassInvite" parentKey="massInviteButton" inherits="MAHIconSquareButtonTemplate">
+                <ButtonText text="C"/>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentRefreshButton" relativePoint="LEFT" x="2" y="0" />
+                </Anchors>
+            </Button>
+            <Frame name="$parentInset" parentKey="inset" inherits="InsetFrameTemplate">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="4" y="-60" />
+                    <Anchor point="BOTTOMRIGHT" x="-4" y="4" />
+                </Anchors>
+                <Frames>
+                    <ScrollFrame name="$parentScrollFrame" inherits="UIPanelScrollFrameTemplate">
+                        <Anchors>
+                            <Anchor point="TOPLEFT" y="-5" />
+                            <Anchor point="BOTTOMRIGHT" x="-27" y="4" />
+                        </Anchors>
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <Texture name="$parentTop" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+                                    <Size x="31" y="102"/>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="-2" y="5"/>
+                                    </Anchors>
+                                    <TexCoords left="0" right="0.484375" top="0" bottom="0.4"/>
+                                </Texture>
+                                <Texture name="$parentBottom" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+                                    <Size x="31" y="106"/>
+                                    <Anchors>
+                                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-2" y="-2"/>
+                                    </Anchors>
+                                    <TexCoords left="0.515625" right="1.0" top="0" bottom="0.4140625"/>
+                                </Texture>
+                                <Texture name="$parentMiddle" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+                                    <Size x="31" y="1"/>
+                                    <Anchors>
+                                        <Anchor point="TOP" relativeTo="$parentTop" relativePoint="BOTTOM"/>
+                                        <Anchor point="BOTTOM" relativeTo="$parentBottom" relativePoint="TOP"/>
+                                    </Anchors>
+                                    <TexCoords left="0" right="0.484375" top=".75" bottom="1.0"/>
+                                </Texture>
+                            </Layer>
+                        </Layers>
+                        <ScrollChild>
+                            <Frame name="MAHAccountsListPanel" parentKey="accountsList">
+                                <Size x="300" y="0"/>
+                                <Anchors>
+                                    <Anchor point="TOPLEFT"/>
+                                </Anchors>
+                            </Frame>
+                        </ScrollChild>
+                    </ScrollFrame>
+                </Frames>
+            </Frame>
+        </Frames>
+    </Frame>
+</Ui>

@@ -1,32 +1,15 @@
-local ADDON_NAME, MAH = ...
-local MultipleAccountHelper = LibStub("AceAddon-3.0"):NewAddon(MAH, ADDON_NAME, "AceConsole-3.0")
+ADDON_NAME, MAH = ...
 
-local connectedCharacters = {};
-
-local function RegisterEvents()
-    local AceEvent = LibStub("AceEvent-3.0");
-    local AceComm = LibStub("AceComm-3.0");
-
-    AceEvent:RegisterEvent("PLAYER_LOGOUT", function ()
-        
-    end)
-
-    AceEvent:RegisterEvent("PLAYER_LOGOUT", function ()
-        
-    end)
-end
+L = LibStub("AceLocale-3.0"):GetLocale(ADDON_NAME)
+MultipleAccountHelper = LibStub("AceAddon-3.0"):NewAddon(MAH, ADDON_NAME, "AceEvent-3.0", "AceConsole-3.0")
 
 function MultipleAccountHelper:OnInitialize()
-    local AceConsole = LibStub("AceConsole-3.0");
+    -- Core elements
+    MultipleAccountHelper.DB.Initialize()
 
-    AceConsole:RegisterChatCommand("mah", function ()
-        MAH:ToogleSettingsPanel()
-    end)
+    -- UI elements
+    MultipleAccountHelper.FriendlistPanel.Initialize()
 end
 
 function MultipleAccountHelper:OnEnable()
-    RegisterEvents()
-    self:CreateSettingsPanel()
-    self:CreateFriendlistPanel()
 end
-
