@@ -31,6 +31,7 @@
 						<Anchor point="LEFT" relativeKey="$parent.characterZone" relativePoint="RIGHT" x="4" />
 					</Anchors>
 				</FontString>
+				<FontString name="$parentCharacterGUID" parentKey="characterGUID" inherits="GameFontNormalSmall" hidden="true"/>
             </Layer>
         </Layers>
         <Frames>

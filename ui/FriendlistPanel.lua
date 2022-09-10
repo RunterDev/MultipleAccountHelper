@@ -1,26 +1,23 @@
 MultipleAccountHelper.FriendlistPanel = LibStub("AceAddon-3.0"):NewAddon("MultipleAccountHelper.FriendlistPanel")
 
-local function TrimParenthesis(text)
-    text = text:gsub('%(', '')
-    return text:gsub('%)', '')
-end
-
+-- Create the tab in the contact panel to access the MAH panel
 local function CreateTab()
     local tab = LibStub('SecureTabs-2.0'):Add(FriendsFrame)
     tab:SetText(L["TAB_TITLE"])
     tab.frame = MAHFriendlistPanel
 end
 
+-- Updates the view of a character panel, if connected or not
+-- @param frame (Frame)
 local function UpdateCharacterFrameConnectionStatus(frame)
-    if UnitIsConnected(MultipleAccountHelper.Core.FormatPlayerName(frame.characterName:GetText(), frame.characterRealm:GetText())) then
+    local accountInfo = C_BattleNet.GetGameAccountInfoByGUID(frame.characterGUID:GetText())
+
+    if accountInfo ~= nil then
         -- Retrieving the character location in the world
-        local guid = UnitGUID(MultipleAccountHelper.Core.FormatPlayerName(frame.characterName:GetText(), frame.characterRealm:GetText()))
         local place = L["UNKNOWN"]
         
-        if guid ~= nil then
-            if C_BattleNet.GetGameAccountInfoByGUID(guid).areaName ~= nil then
-                place = C_BattleNet.GetGameAccountInfoByGUID(guid).areaName
-            end
+        if accountInfo.areaName ~= nil then
+            place = accountInfo.areaName
         end
 
         frame.connectedDot:SetTextColor(0.2, 0.8, 0.2, 1)
@@ -39,33 +36,82 @@ local function UpdateCharacterFrameConnectionStatus(frame)
     end
 end
 
-local function FindOrCreateCharacterFrameByName(name, realm)
+-- Reorganize characters in the list to show connected first, ordered by alphabetic order
+function MultipleAccountHelper.FriendlistPanel.OrganizeCharacters()
+    local orderedFrames = {}
+    local disconnectedChars = {}
+
+    -- Order connected first
+    table.foreach(MAHAccountsListPanel.characterFrames, function (key, value)
+        if MultipleAccountHelper.Utils.IsPlayerConnected(value.characterGUID:GetText()) then
+            table.insert(orderedFrames, value)
+        else
+            table.insert(disconnectedChars, value)
+        end
+    end)
+
+    table.sort(orderedFrames, function (a, b)
+        return a.characterName:GetText() < b.characterName:GetText()
+    end)
+
+    table.sort(disconnectedChars, function (a, b)
+        return a.characterName:GetText() < b.characterName:GetText()
+    end)
+
+    table.foreach(disconnectedChars, function (key, value)
+        table.insert(orderedFrames, table.getn(orderedFrames)+1, value)
+    end)
+
+    MAHAccountsListPanel.characterFrames = orderedFrames
+
+    local index = 0
+    table.foreach(orderedFrames, function (key, value)
+        value:SetPoint("TOPLEFT", MAHAccountsListPanel, "TOPLEFT", 0, -value:GetHeight() * index)
+        index = index + 1
+    end)
+end
+
+-- Returns the frame of one character if it exists, create it otherwise
+-- @param name (string)
+-- @param realm (string)
+-- @param guid (string)
+-- @return (Frame)
+local function FindOrCreateCharacterFrameByName(name, realm, guid)
+    if C_AccountInfo.IsGUIDRelatedToLocalAccount(guid) then
+        return
+    end
+
     for i = 1, table.getn(MAHAccountsListPanel.characterFrames), 1 do
-        if MAHAccountsListPanel.characterFrames[i].characterName:GetText() == name and TrimParenthesis(MAHAccountsListPanel.characterFrames[i].characterRealm:GetText()) == realm then
-            UpdateCharacterFrameConnectionStatus(MAHAccountsListPanel.characterFrames[i])
+        if MAHAccountsListPanel.characterFrames[i].characterName:GetText() == name and MultipleAccountHelper.Utils.TrimParenthesis(MAHAccountsListPanel.characterFrames[i].characterRealm:GetText()) == realm then
             return MAHAccountsListPanel.characterFrames[i]
         end
     end
-
+    
     local frame = CreateFrame('Frame', nil, MAHAccountsListPanel, 'MAHAccountListElementTemplate')
 
-    frame:SetPoint("TOPLEFT", 0, -frame:GetHeight() * (table.getn(MAHAccountsListPanel.characterFrames)-1))
+    frame:SetPoint("TOPLEFT", 0, -frame:GetHeight() * table.getn(MAHAccountsListPanel.characterFrames))
     frame.characterName:SetText(name)
+    frame.characterGUID:SetText(guid)
     frame.characterRealm:SetText('(' .. realm .. ')')
     frame.inviteButton.tooltipText:SetText(L["INVITE"])
     frame.inviteButton:SetScript('OnClick', function (data)
-        MultipleAccountHelper.Core.InvitePlayer(data:GetParent().characterName:GetText(), data:GetParent().characterRealm:GetText())
+        MultipleAccountHelper.Utils.InvitePlayer(data:GetParent().characterName:GetText(), data:GetParent().characterRealm:GetText())
     end)
 
-    UpdateCharacterFrameConnectionStatus(frame)
-
     table.insert(MAHAccountsListPanel.characterFrames, frame)
-
-    MAHAccountsListPanel:SetHeight(42 * table.getn(MAHAccountsListPanel.characterFrames))
 
     return frame
 end
 
+-- Updates the view of one character in the list
+-- @param name (string)
+-- @param realm (string)
+-- @param guid (string)
+function MultipleAccountHelper.FriendlistPanel.UpdateOneCharacterPanelView(name, realm, guid)
+    UpdateCharacterFrameConnectionStatus(FindOrCreateCharacterFrameByName(name, realm, guid))
+end
+
+-- Updates the view of all the characters in the list, and orders them
 function MultipleAccountHelper.FriendlistPanel.UpdateCharactersPanelView()
     local characters = MultipleAccountHelper.DB.GetAllCharacters()
 
@@ -74,10 +120,14 @@ function MultipleAccountHelper.FriendlistPanel.UpdateCharactersPanelView()
     end
 
     for i = 1, table.getn(characters), 1 do
-        FindOrCreateCharacterFrameByName(characters[i].name, characters[i].realm)
+        MultipleAccountHelper.FriendlistPanel.UpdateOneCharacterPanelView(characters[i].name, characters[i].realm, characters[i].guid)
     end
+
+    MultipleAccountHelper.FriendlistPanel.OrganizeCharacters()
+    MAHAccountsListPanel:SetHeight(42 * table.getn(MAHAccountsListPanel.characterFrames))
 end
 
+-- Initialize the panel
 function MultipleAccountHelper.FriendlistPanel.Initialize()
     CreateTab()
 
@@ -86,7 +136,9 @@ function MultipleAccountHelper.FriendlistPanel.Initialize()
     MAHFriendlistPanel.refreshButton.tooltipText:SetText(L["ACTUALIZE"])
     MAHFriendlistPanel.massInviteButton.tooltipText:SetText(L["MASS_INVITE"])
 
+    MAHFriendlistPanel:SetScript('OnShow', MultipleAccountHelper.FriendlistPanel.UpdateCharactersPanelView)
     MAHFriendlistPanel.refreshButton:SetScript('OnClick', MultipleAccountHelper.FriendlistPanel.UpdateCharactersPanelView)
-
+    MAHFriendlistPanel.massInviteButton:SetScript('OnClick', MultipleAccountHelper.Utils.MassInvitePlayers)
+    
     MultipleAccountHelper.FriendlistPanel.UpdateCharactersPanelView()
 end

@@ -8,7 +8,8 @@ local defaults = {
         characters = {
             ['*'] = {
                 name = "",
-                realm = ""
+                realm = "",
+                guid = ""
             }
         },
         accounts = {}
@@ -19,11 +20,11 @@ function MultipleAccountHelper.DB.Initialize()
     db = LibStub("AceDB-3.0"):New("MultipleAccountHelperDB", defaults, true)
 end
 
-function MultipleAccountHelper.DB.CharacterExists(name, realm)
+function MultipleAccountHelper.DB.CharacterExists(name, realm, guid)
     for i = 1, table.getn(db.global.characters) do
         local char = db.global.characters[i]
 
-        if char.name == name and char.realm == realm then
+        if char.name == name and char.realm == realm and char.guid == guid then
             return true
         end
     end
@@ -41,11 +42,12 @@ function MultipleAccountHelper.DB.AccountExists(accountId)
     return false
 end
 
-function MultipleAccountHelper.DB.SaveCharacter(name, realm)
-    if not MultipleAccountHelper.DB.CharacterExists(name, realm) then
+function MultipleAccountHelper.DB.SaveCharacter(name, realm, guid)
+    if not MultipleAccountHelper.DB.CharacterExists(name, realm, guid) then
         table.insert(db.global.characters, {
             name = name,
-            realm = realm
+            realm = realm,
+            guid = guid
         })
     end
 end

@@ -14,7 +14,7 @@ languages/frFR.lua
 MultipleAccountHelper.lua
 
 core/DB.lua
-core/Settings.lua
+core/Utils.lua
 core/Core.lua
 
 ui/fonts/Fonts.xml
