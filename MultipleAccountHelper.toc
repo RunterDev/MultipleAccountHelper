@@ -3,7 +3,7 @@
 ## Notes: Makes multiple local accounts management easier
 ## Notes-frFR: Facilite la gestion du multicompte local
 ## Author: Runter
-## Version: 0.1.0
+## Version: 1.0.0
 ## SavedVariables: MultipleAccountHelperDB
 
 embeds.xml
